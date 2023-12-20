@@ -120,23 +120,24 @@ controls.autoRotate = true;
 controls.autoRotateSpeed = Math.PI;
 controls.enableZoom = false;
 
-/**
- * Snowfall
- */
+
 const snowflakeGeometry = new THREE.BufferGeometry();
 const snowflakeVertices = [];
 
-for (let i = 0; i < 1000; i++) {
-    const x = (Math.random() - 0.7) * 10;
-    const y = Math.random() * 10;
-    const z = (Math.random() - 0.5) * 10;
+// Generate 5000 snowflakes with smoother distribution
+for (let i = 0; i < 5000; i++) {
+    // Randomly position each snowflake within a larger range
+    const x = (Math.random() - 0.5) * 50;
+    const y = (Math.random() - 0.5) * 20;
+    const z = (Math.random() - 0.5) * 50;
 
+    // Add the coordinates to the array
     snowflakeVertices.push(x, y, z);
 }
 
 snowflakeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(snowflakeVertices, 3));
 
-const snowflakeMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.0125 });
+const snowflakeMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.015 });
 
 const snowflakes = new THREE.Points(snowflakeGeometry, snowflakeMaterial);
 scene.add(snowflakes);
