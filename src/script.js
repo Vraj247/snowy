@@ -137,7 +137,13 @@ for (let i = 0; i < 5000; i++) {
 
 snowflakeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(snowflakeVertices, 3));
 
-const snowflakeMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.015 });
+// Create a PointsMaterial with emission shader
+const snowflakeMaterial = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.015,
+    emissive: 0x00ff00, // Set the emissive color (green in this case)
+    emissiveIntensity: 0.2, // Adjust the intensity of the emission
+});
 
 const snowflakes = new THREE.Points(snowflakeGeometry, snowflakeMaterial);
 scene.add(snowflakes);
