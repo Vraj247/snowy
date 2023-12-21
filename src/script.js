@@ -36,7 +36,7 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 // const colorTexture = textureLoader.load('/textures/checkerboard-1024x1024.png')
 // const colorTexture = textureLoader.load('/textures/checkerboard-2x2.png')
 const colorTexture = textureLoader.load(
-    '/textures/3.jpeg',
+    '/textures/10.jpeg',
     () =>
     {
         console.log('textureLoader: loading finished')
@@ -57,10 +57,10 @@ colorTexture.wrapT = THREE.MirroredRepeatWrapping
 // colorTexture.repeat.y = 3
 // colorTexture.offset.x = 0.5
 // colorTexture.offset.y = 0.5
-colorTexture.rotation = Math.PI * 0.25
-colorTexture.center.x = 0.5
-colorTexture.center.y = 0.5
-colorTexture.generateMipmaps = false
+// colorTexture.rotation = Math.PI * 0.25
+colorTexture.center.x = 0
+colorTexture.center.y = 0
+colorTexture.generateMipmaps = true
 colorTexture.minFilter = THREE.NearestFilter
 colorTexture.magFilter = THREE.NearestFilter
 
@@ -74,7 +74,7 @@ const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
+const geometry = new THREE.SphereGeometry(1, 20, 20)
 console.log(geometry.attributes)
 const material = new THREE.MeshBasicMaterial({ map: colorTexture })
 const mesh = new THREE.Mesh(geometry, material)
@@ -108,16 +108,16 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 3
-camera.position.y = 3
-camera.position.z = 3
+camera.position.y = 10
+camera.position.z = 10
+camera.position.x = 10
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+controls.enableDamping = true;
 controls.autoRotate = true;
-controls.autoRotateSpeed = Math.PI;
+controls.autoRotateSpeed = Math.PI / 60;
 controls.enableZoom = false;
 
 
@@ -125,7 +125,7 @@ const snowflakeGeometry = new THREE.BufferGeometry();
 const snowflakeVertices = [];
 
 // Generate 5000 snowflakes with smoother distribution
-for (let i = 0; i < 5000; i++) {
+for (let i = 0; i < 10000; i++) {
     // Randomly position each snowflake within a larger range
     const x = (Math.random() - 0.5) * 50;
     const y = (Math.random() - 0.5) * 20;
@@ -140,9 +140,9 @@ snowflakeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(snow
 // Create a PointsMaterial with emission shader
 const snowflakeMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
-    size: 0.015,
+    size: 0.01312,
     emissive: 0x00ff00, // Set the emissive color (green in this case)
-    emissiveIntensity: 0.2, // Adjust the intensity of the emission
+    emissiveIntensity: 0.01, // Adjust the intensity of the emission
 });
 
 const snowflakes = new THREE.Points(snowflakeGeometry, snowflakeMaterial);
@@ -187,23 +187,23 @@ const tick = () => {
     controls.update()
 
     // Rotate the mesh
-    mesh.rotation.x = elapsedTime * Math.PI / 2  // Adjust the rotation speed by changing the multiplier
-    mesh.rotation.y = elapsedTime * Math.PI / 1
-    mesh.rotation.z = elapsedTime * Math.PI / 1  // Adjust the rotation speed by changing the multiplier
+    mesh.rotation.x = elapsedTime * Math.PI / 39312   // Adjust the rotation speed by changing the multiplier
+    // mesh.rotation.y = elapsedTime * Math.PI / 1
+    // mesh.rotation.z = elapsedTime * Math.PI / 1  // Adjust the rotation speed by changing the multiplier
 
     // // Rotate the texture
     // colorTexture.rotation = elapsedTime * 0.25  // Adjust the rotation speed by changing the multiplier
     // Update snowflakes position to create the snowfall effect
-    const snowflakePositions = snowflakeGeometry.attributes.position.array;
+    // const snowflakePositions = snowflakeGeometry.attributes.position.array;
 
-    for (let i = 1; i < snowflakePositions.length; i += 3) {
-        snowflakePositions[i] -= 0.03; // Adjust the falling speed
-        if (snowflakePositions[i] < -5) {
-            snowflakePositions[i] = 10;
-        }
-    }
+    // for (let i = 1; i < snowflakePositions.length; i += 3) {
+    //     snowflakePositions[i] -= 0.03; // Adjust the falling speed
+    //     if (snowflakePositions[i] < -5) {
+    //         snowflakePositions[i] = 10;
+    //     }
+    // }
 
-    snowflakeGeometry.attributes.position.needsUpdate = true;
+    // snowflakeGeometry.attributes.position.needsUpdate = true;
 
 
     // Render
